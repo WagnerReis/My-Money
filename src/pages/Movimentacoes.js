@@ -30,7 +30,7 @@ const Movimentacoes = ({ match }) => {
             setDescricao('')
             setValor(0)
             data.refetch()
-            await sleep(3000)
+            await sleep(5000)
             dataMeses.refetch()
         }
     }
@@ -38,7 +38,7 @@ const Movimentacoes = ({ match }) => {
     const removerMovimentacao = async (id) => {
         await remover(`movimentacoes/${match.params.data}/${id}`)
         data.refetch()
-        await sleep(3000)
+        await sleep(5000)
         dataMeses.refetch()
     }
 
@@ -53,7 +53,7 @@ const Movimentacoes = ({ match }) => {
         <div className='container'>
             <h1>Movimentações</h1>
             {
-                !dataMeses.loading && <div>
+                !dataMeses.loading && dataMeses.data && <div>
                     Previsão entrada: {dataMeses.data.previsao_entrada} <input type='text' onBlur={alterarPrevisaoEntrada} />/ Previsão saída: {dataMeses.data.previsao_saida} <input type='text' onBlur={alterarPrevisaoSaida} /> <br />
                     Entradas: {dataMeses.data.entradas} / Saídas: {dataMeses.data.saidas}
                 </div>
