@@ -12,7 +12,7 @@ const Login = () => {
     const login = async () => {
         await signin({
             email: 'wagner@gmail.com',
-            password: 'trevao123',
+            password: 'trevao1231',
             returnSecureToken: true
         })
     }
