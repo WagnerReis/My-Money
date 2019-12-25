@@ -27,7 +27,7 @@ const reducer = (state, action) => {
 const init = baseURL => {
     const useGet = resource => {
         const [data, dispatch] = useReducer(reducer, INITIAL_STATE)
-        const carregar = async() => {
+        const carregar = async () => {
             dispatch({ type: "REQUEST" })
             const res = await axios.get(baseURL + resource + '.json')
             dispatch({ type: "SUCCESS", data: res.data })
@@ -56,7 +56,7 @@ const init = baseURL => {
 
     const useDelete = () => {
         const [data, dispatch] = useReducer(reducer, INITIAL_STATE)
-        const remove = async(resource) => {
+        const remove = async (resource) => {
             dispatch({ type: 'REQUEST' })
             await axios
                 .delete(baseURL + resource + '.json')
@@ -71,7 +71,7 @@ const init = baseURL => {
 
     const usePatch = () => {
         const [data, dispatch] = useReducer(reducer, INITIAL_STATE)
-        const patch = async(resource, data) => {
+        const patch = async (resource, data) => {
             dispatch({ type: 'REQUEST' })
             await axios
                 .patch(baseURL + resource + '.json', data)
@@ -90,6 +90,20 @@ const init = baseURL => {
         useDelete,
         usePatch
     }
+}
+
+export const usePost = resource => {
+    const [data, dispatch] = useReducer(reducer, INITIAL_STATE)
+    const post = async (data) => {
+        dispatch({ type: 'REQUEST' })
+        const res = await axios.post(resource, data)
+        dispatch({
+            type: 'SUCCESS',
+            data: res.data
+        })
+        return res.data
+    }
+    return [data, post]
 }
 
 export default init
