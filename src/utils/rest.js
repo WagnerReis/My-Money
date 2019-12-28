@@ -30,8 +30,14 @@ const reducer = (state, action) => {
             code: action.code
         }
     }
-    //manipular meu estado
     return state
+}
+const getAuth = () => {
+    const token = localStorage.getItem('token')
+    if(token){
+        return '?auth=' + token
+    }
+    return ''
 }
 
 const init = baseURL => {
@@ -40,7 +46,7 @@ const init = baseURL => {
         const carregar = async () => {
             try {
                 dispatch({ type: "REQUEST" })
-                const res = await axios.get(baseURL + resource + '.json')
+                const res = await axios.get(baseURL + resource + '.json' +  getAuth())
                 if (res.data.error && Object.keys(res.data.error).length > 0){
                     dispatch({ type: "FAILURE", error: res.data.error })
                 }else{
@@ -63,7 +69,7 @@ const init = baseURL => {
         const [data, dispatch] = useReducer(reducer, INITIAL_STATE)
         const post = async (data) => {
             dispatch({ type: 'REQUEST' })
-            const res = await axios.post(baseURL + resource + '.json', data)
+            const res = await axios.post(baseURL + resource + '.json' + getAuth(), data)
             dispatch({
                 type: 'SUCCESS',
                 data: res.data
@@ -77,7 +83,7 @@ const init = baseURL => {
         const remove = async (resource) => {
             dispatch({ type: 'REQUEST' })
             await axios
-                .delete(baseURL + resource + '.json')
+                .delete(baseURL + resource + '.json' + getAuth())
                 .then(() => {
                     dispatch({
                         type: 'SUCCESS'
@@ -92,7 +98,7 @@ const init = baseURL => {
         const patch = async (data) => {
             dispatch({ type: 'REQUEST' })
             await axios
-                .patch(baseURL + resource + '.json', data)
+                .patch(baseURL + resource + '.json' + getAuth(), data)
                 .then(() => {
                     dispatch({
                         type: 'SUCCESS'
